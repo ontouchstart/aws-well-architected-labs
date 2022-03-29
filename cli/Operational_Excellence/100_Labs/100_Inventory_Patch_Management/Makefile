@@ -11,3 +11,9 @@ validate:
 	diff tmp OE_Inventory_and_Patch_Mgmt.json
 	rm tmp
 	aws cloudformation validate-template --template-url $(CFT)
+
+describe-stacks:
+	aws cloudformation describe-stacks --stack-name $(STACK)
+
+describe-stack-events:
+	aws cloudformation describe-stack-events --stack-name $(STACK)
