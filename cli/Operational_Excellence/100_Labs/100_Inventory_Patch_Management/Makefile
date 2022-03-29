@@ -20,3 +20,6 @@ describe-stack-events:
 
 ec2-ids:
 	aws ec2 describe-instances --query Reservations[].Instances[].InstanceId
+
+delete-stack:
+	aws cloudformation delete-stack --stack-name $(STACK)
