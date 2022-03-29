@@ -1,6 +1,9 @@
-bash: get-user
+bash: get-user describe-stacks
 	bash
 	
+stack-summaries:
+	aws cloudformation list-stacks --query StackSummaries[] 
+
 get-user:
 	aws iam get-user || echo 'Fix AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY'
 
@@ -13,6 +16,9 @@ validate:
 	aws cloudformation validate-template --template-url $(CFT)
 
 describe-stacks:
+	aws cloudformation describe-stacks --query Stacks[] 
+
+describe-stack:
 	aws cloudformation describe-stacks --stack-name $(STACK)
 
 describe-stack-events:
