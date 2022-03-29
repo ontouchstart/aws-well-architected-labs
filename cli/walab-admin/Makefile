@@ -12,5 +12,9 @@ delete-user-walab-admin:
 create-group-walab-admin: 
 	aws iam create-group --group-name walab-admin 
 
+add-user-to-group-walab-admin:
+	aws iam add-user-to-group --user-name walab-admin --group-name walab-admin 
+
 delete-group-walab-admin: 
 	aws iam delete-group --group-name walab-admin 
+
