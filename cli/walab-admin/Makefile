@@ -32,3 +32,18 @@ delete-group-walab-admin:
 	aws iam delete-group --group-name walab-admin 
 
 clean: delete-user-walab-admin
+
+######################
+## Notes
+######################
+# aws iam create-login-profile --user-name walab-admin --password *****
+# aws iam update-login-profile --user-name walab-admin --password ****
+
+### Generate password with python
+# python3
+# Python 3.9.10 (main, Jan 15 2022, 11:48:00) 
+# [Clang 13.0.0 (clang-1300.0.29.3)] on darwin
+# Type "help", "copyright", "credits" or "license" for more information.
+# >>> import secrets
+# >>> secrets.token_urlsafe(32)
+# '********************************'
