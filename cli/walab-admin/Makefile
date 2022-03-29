@@ -2,14 +2,17 @@ all: add-user-to-group-walab-admin
 	export $(cat .env)
 	aws iam get-group --group-name walab-admin
 	aws iam list-attached-group-policies --group-name walab-admin
+	aws iam list-user-tags --user-name walab-admin
 	bash
 
 create-user-walab-admin: 
 	export $(cat .env)
 	aws iam list-users --query Users[].UserName | grep '"walab-admin"' || aws iam create-user --user-name walab-admin 
+	aws iam tag-user --user-name walab-admin --tags Key=ROLE,Value=Administrator
 
 delete-user-walab-admin: delete-group-walab-admin
 	export $(cat .env)
+	aws iam untag-user --user-name walab-admin --tag-keys ROLE
 	aws iam delete-user --user-name walab-admin 
 
 create-group-walab-admin: 
