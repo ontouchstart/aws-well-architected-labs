@@ -1,5 +1,6 @@
 all: 
 	aws iam get-user
+	python3 get-user.py
 
 list: add-user-to-group-walab-admin
 	aws iam get-group --group-name walab-admin
