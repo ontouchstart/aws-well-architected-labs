@@ -27,5 +27,18 @@ describe-stack-events:
 ec2-ids:
 	aws ec2 describe-instances --query Reservations[].Instances[].InstanceId
 
+deploy-stack:
+	aws cloudformation deploy \
+		--stack-name $(STACK) \
+		--template-file $(TemplateFile) \
+		--parameter-overrides \
+			WorkloadName=$(WorkloadName) \
+			InstanceProfile=$(InstanceProfile) \
+			InstanceTypeWeb=$(InstanceTypeWeb) \
+			InstanceTypeApp=$(InstanceTypeApp) \
+			KeyName=$(KeyName) \
+			SourceLocation=$(SourceLocation)
+
 delete-stack:
 	aws cloudformation delete-stack --stack-name $(STACK)
+
