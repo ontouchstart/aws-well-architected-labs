@@ -24,6 +24,9 @@ describe-stack:
 describe-stack-events:
 	aws cloudformation describe-stack-events --stack-name $(STACK)
 
+list-stack-resources:
+	aws cloudformation list-stack-resources --stack-name $(STACK)
+
 ec2-ids:
 	aws ec2 describe-instances --query Reservations[].Instances[].InstanceId
 
