@@ -28,7 +28,7 @@ list-stack-resources:
 	aws cloudformation list-stack-resources --stack-name $(STACK)
 
 ec2-ids:
-	aws ec2 describe-instances --query Reservations[].Instances[].InstanceId
+	aws cloudformation list-stack-resources --stack-name $(STACK) --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId"
 
 deploy-stack:
 	aws cloudformation deploy \
