@@ -54,6 +54,26 @@ ec2-start:
 ec2-stop:
 	aws ec2 stop-instances --instance-ids `aws cloudformation list-stack-resources --stack-name $(STACK) --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId"  --output text` --output yaml 
 
+ec2-ssh-0:
+	id=`aws cloudformation list-stack-resources --stack-name $(STACK) --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId"  --output text` ;\
+	ip=`aws ec2 describe-instances --instance-ids $$id --query "Reservations[0].Instances[].PublicIpAddress" --output text`; \
+	ssh -i $(KeyName).pem ec2-user@$$ip
+
+ec2-ssh-1:
+	id=`aws cloudformation list-stack-resources --stack-name $(STACK) --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId"  --output text` ;\
+	ip=`aws ec2 describe-instances --instance-ids $$id --query "Reservations[1].Instances[].PublicIpAddress" --output text`; \
+	ssh -i $(KeyName).pem ec2-user@$$ip
+
+ec2-ssh-2:
+	id=`aws cloudformation list-stack-resources --stack-name $(STACK) --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId"  --output text` ;\
+	ip=`aws ec2 describe-instances --instance-ids $$id --query "Reservations[2].Instances[].PublicIpAddress" --output text`; \
+	ssh -i $(KeyName).pem ec2-user@$$ip
+
+ec2-ssh-3:
+	id=`aws cloudformation list-stack-resources --stack-name $(STACK) --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId"  --output text` ;\
+	ip=`aws ec2 describe-instances --instance-ids $$id --query "Reservations[3].Instances[].PublicIpAddress" --output text`; \
+	ssh -i $(KeyName).pem ec2-user@$$ip
+
 deploy-stack:
 	aws cloudformation deploy \
 		--stack-name $(STACK) \
