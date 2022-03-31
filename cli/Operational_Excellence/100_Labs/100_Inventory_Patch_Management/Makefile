@@ -36,8 +36,8 @@ describe-stack-events:
 list-stack-resources:
 	aws cloudformation list-stack-resources --stack-name $(STACK) --output yaml
 
-ec2-ids:
-	aws cloudformation list-stack-resources --stack-name $(STACK) --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId" --output yaml
+ec2-instances:
+	aws ec2 describe-instances --instance-ids `aws cloudformation list-stack-resources --stack-name OELabStack1 --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId"  --output text` --query "Reservations[].Instances[]" --output yaml
 
 deploy-stack:
 	aws cloudformation deploy \
