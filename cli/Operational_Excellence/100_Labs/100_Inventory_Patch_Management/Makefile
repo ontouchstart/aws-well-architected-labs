@@ -31,7 +31,7 @@ describe-stack:
 	aws cloudformation describe-stacks --stack-name $(STACK) --output yaml
 
 describe-stack-events:
-	aws cloudformation describe-stack-events --stack-name $(STACK) --output yaml
+	aws cloudformation describe-stack-events --stack-name $(STACK) --output yaml 2>&1 | tee -a stack-events.log
 
 list-stack-resources:
 	aws cloudformation list-stack-resources --stack-name $(STACK) --output yaml
@@ -49,9 +49,9 @@ deploy-stack:
 			InstanceTypeWeb=$(InstanceTypeWeb) \
 			InstanceTypeApp=$(InstanceTypeApp) \
 			KeyName=$(KeyName) \
-			SourceLocation=$(SourceLocation)
-		--output yaml
+			SourceLocation=$(SourceLocation) \
+		--output yaml \
+		--debug 2>&1 | tee -a deploy-stack.log
 
 delete-stack:
-	aws cloudformation delete-stack --stack-name $(STACK) --output yaml
-
+	aws cloudformation delete-stack --stack-name $(STACK) --output yaml --debug 2>&1 | tee -a delete-stack.log
