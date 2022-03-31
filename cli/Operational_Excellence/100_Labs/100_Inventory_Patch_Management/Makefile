@@ -36,8 +36,23 @@ describe-stack-events:
 list-stack-resources:
 	aws cloudformation list-stack-resources --stack-name $(STACK) --output yaml
 
-ec2-instances:
+# ec2
+#
+ec2:
 	aws ec2 describe-instances --instance-ids `aws cloudformation list-stack-resources --stack-name OELabStack1 --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId"  --output text` --query "Reservations[].Instances[]" --output yaml
+
+
+ec2-state:
+	aws ec2 describe-instances --instance-ids `aws cloudformation list-stack-resources --stack-name OELabStack1 --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId"  --output text` --query "Reservations[].Instances[].State" --output yaml
+
+ec2-ip:
+	aws ec2 describe-instances --instance-ids `aws cloudformation list-stack-resources --stack-name OELabStack1 --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId"  --output text` --query "Reservations[].Instances[].PublicIpAddress" --output yaml
+
+ec2-start:
+	aws ec2 start-instances --instance-ids `aws cloudformation list-stack-resources --stack-name OELabStack1 --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId"  --output text` --output yaml 
+
+ec2-stop:
+	aws ec2 stop-instances --instance-ids `aws cloudformation list-stack-resources --stack-name OELabStack1 --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId"  --output text` --output yaml 
 
 deploy-stack:
 	aws cloudformation deploy \
