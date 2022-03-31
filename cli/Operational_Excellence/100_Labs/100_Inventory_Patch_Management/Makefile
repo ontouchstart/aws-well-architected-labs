@@ -1,34 +1,43 @@
-bash: get-user describe-stacks
-	bash
+# Please run 
+#
+# export $(cat .env) 
+#
+# to set your environment 
+#
+# .env template
+#
+# AWS_ACCESS_KEY_ID=
+# AWS_SECRET_ACCESS_KEY=
+# AWS_DEFAULT_REGION=us-east-1
+# WorkloadName=Test
+# InstanceProfile=''
+# InstanceTypeWeb=t2.micro
+# InstanceTypeApp=t2.micro
+# KeyName=walab
+# SourceLocation=
+# TemplateFile=OE_Inventory_and_Patch_Mgmt.json
+
+all: 
+	@head -18 Makefile
+	@aws iam get-user --output yaml || echo 'Fix AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY'
 	
 stack-summaries:
-	aws cloudformation list-stacks --query StackSummaries[] 
-
-get-user:
-	aws iam get-user || echo 'Fix AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY'
-
-validate:
-	aws s3 ls $(S3)
-	aws s3 cp $(S3) tmp
-	cat tmp | jq .
-	diff tmp OE_Inventory_and_Patch_Mgmt.json
-	rm tmp
-	aws cloudformation validate-template --template-url $(CFT)
+	aws cloudformation list-stacks --query StackSummaries[] --output yaml
 
 describe-stacks:
-	aws cloudformation describe-stacks --query Stacks[] 
+	aws cloudformation describe-stacks --query Stacks[] --output yaml
 
 describe-stack:
-	aws cloudformation describe-stacks --stack-name $(STACK)
+	aws cloudformation describe-stacks --stack-name $(STACK) --output yaml
 
 describe-stack-events:
-	aws cloudformation describe-stack-events --stack-name $(STACK)
+	aws cloudformation describe-stack-events --stack-name $(STACK) --output yaml
 
 list-stack-resources:
-	aws cloudformation list-stack-resources --stack-name $(STACK)
+	aws cloudformation list-stack-resources --stack-name $(STACK) --output yaml
 
 ec2-ids:
-	aws cloudformation list-stack-resources --stack-name $(STACK) --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId"
+	aws cloudformation list-stack-resources --stack-name $(STACK) --query "StackResourceSummaries[?ResourceType == 'AWS::EC2::Instance'].PhysicalResourceId" --output yaml
 
 deploy-stack:
 	aws cloudformation deploy \
@@ -41,7 +50,8 @@ deploy-stack:
 			InstanceTypeApp=$(InstanceTypeApp) \
 			KeyName=$(KeyName) \
 			SourceLocation=$(SourceLocation)
+		--output yaml
 
 delete-stack:
-	aws cloudformation delete-stack --stack-name $(STACK)
+	aws cloudformation delete-stack --stack-name $(STACK) --output yaml
 
