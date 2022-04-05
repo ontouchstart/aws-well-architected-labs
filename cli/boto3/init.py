@@ -1,4 +1,5 @@
 import boto3
+import json
 iam = boto3.client('iam')
 s3 = boto3.client('s3')
 cf = boto3.client('cloudformation')
@@ -11,4 +12,6 @@ stacks = cf.list_stacks()
 instances = ec2.describe_instances()
 
 print(dir())
-print(user)
+print(json.dumps(user, indent=2, default=str))
+print(json.dumps(instances, indent=2, default=str))
+print(json.dumps(stacks, indent=2, default=str))
